@@ -1,8 +1,9 @@
 from pitches import generate_pitch_palette
 from primes import primes
+from score import show_score
 
-MIDI_PITCH_RANGE = (21, 108)  # Piano range
-CENTRAL_A = 69
+MIDI_PITCH_RANGE = (-39, 48)  # Piano range in Adjab terms
+CENTRAL_A = 7  # in abjad, midi-pitch 69
 
 
 def main():
@@ -17,6 +18,8 @@ def main():
     palette = generate_pitch_palette(
         reference_pitch, prime_intervals, min_pitch, max_pitch
     )
+    print(palette)
+    show_score(palette)
 
 
 if __name__ == "__main__":
