@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "liquid-primes"
+version = "0.1.0"
+description = ""
+authors = ["Terje Sylvarnes <fuzzklang@gmail.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+sympy = "^1.12"
+abjad = "^3.19"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
