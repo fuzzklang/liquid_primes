@@ -12,6 +12,9 @@ sympy = "^1.12"
 abjad = "^3.19"
 
 
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.9.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
