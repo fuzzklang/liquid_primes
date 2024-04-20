@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Terje Sylvarnes <fuzzklang@gmail.com>"]
 readme = "README.md"
-packages = [{include = "src"}]
+packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
@@ -13,7 +13,15 @@ abjad = "^3.19"
 
 
 [tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
 mypy = "^1.9.0"
+
+# pyproject.toml
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-s"
+testpaths = ["tests"]
+pythonpath = ["src"]
 
 [build-system]
 requires = ["poetry-core"]
