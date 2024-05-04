@@ -1,17 +1,21 @@
 from typing import Dict, List
 import abjad
-from abjad import Ottava, NamedPitch, Staff, Voice
+from abjad import Ottava, NamedPitch, Staff, Voice, Score, Block
 
 from liquid_primes.pitches import get_partition_indices_and_ottava_n
-
-
-def show_score(staff: Staff) -> None:
-    abjad.show(staff)
 
 
 def make_staff(voice: Voice, staff_name: str = "Default staff") -> Staff:
     return Staff([voice], name=staff_name)
 
+def make_score(staff: Staff, score_name: str = "Default score") -> Score:
+    return Score([staff], name=score_name)
+
+def create_blocks(score: Score, with_midi: bool = False) -> Block:
+    items: List[Score | Block] = [score]
+    if with_midi:
+        items.append(Block("midi"))
+    return Block("score", items)
 
 def make_voice(
     pitches: List[int],

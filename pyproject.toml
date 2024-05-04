@@ -10,6 +10,7 @@ packages = [{ include = "src" }]
 python = ">=3.10,<3.13"
 sympy = "^1.12"
 abjad = "^3.19"
+pygame = "^2.5.2"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -23,6 +24,9 @@ addopts = "-s"
 testpaths = ["tests"]
 pythonpath = ["src"]
 
+[tool.ruff]
+line-length = 120
+ignore = ["B311"]
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
