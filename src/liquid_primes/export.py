@@ -15,7 +15,7 @@ def export_midi(score_block: Block, file_path: str) -> bool:
     (_,_,_,return_code) = abjad.persist.as_midi(lilypond_file, file_path)
     is_success = return_code == 0
     if not is_success:
-        logging.warning("Exporting to midi failed")
+        logging.warning(f"Exporting to midi failed, return code: {return_code}")
     return is_success
 
 

@@ -3,16 +3,16 @@ from typing import Dict, List, Tuple
 
 def generate_pitch_palette(
     central_tone: int,
-    intervals: List[int],
+    intervals: List[int|float],
     cutoff_bot: float = float("-inf"),
     cutoff_top: float = float("inf"),
-) -> List[int]:
+) -> List[int|float]:
     """
     Return a list of pitches.
     Constructed from the central tone and list of intervals (ints)
     """
 
-    def in_range(i: int):
+    def in_range(i: int|float):
         return cutoff_bot <= i and i <= cutoff_top
 
     positive_and_negative_intervals = (
@@ -22,18 +22,18 @@ def generate_pitch_palette(
     return [i for i in pitches if in_range(i)]
 
 
-def partition_notes_to_ranges(notes: List[int], ranges: Dict[range, int]):
+def partition_notes_to_ranges(notes: List[int|float], ranges: Dict[range, int]):
     def previous_is_in_same_range(
-        partition: List[Tuple[int, List[int]]], n: int
+        partition: List[Tuple[int, List[int|float]]], n: int|float
     ) -> bool:
         if not partition or not partition[-1]:
             return False
         return partition[-1][0] == n
 
-    partition: List[Tuple[int, List[int]]] = []
+    partition: List[Tuple[int, List[int|float]]] = []
     for n in notes:
         for r in ranges:
-            if n in r:
+            if int(n) in r:
                 if previous_is_in_same_range(partition, ranges[r]):
                     partition[-1][1].append(n)
                 else:
@@ -43,7 +43,7 @@ def partition_notes_to_ranges(notes: List[int], ranges: Dict[range, int]):
 
 
 def get_partition_indices_and_ottava_n(
-    pitches: List[int], ranges=Dict[range, int]
+    pitches: List[int|float], ranges=Dict[range, int|float]
 ):
     indices_and_ottava_n: List[Tuple[int, int]] = []
     idx = 0

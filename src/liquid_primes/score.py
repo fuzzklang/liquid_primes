@@ -10,7 +10,7 @@ def make_staff(voice: Voice, tempo: int|None = None, staff_name: str = "Default 
     staff = Staff([voice], name=staff_name)
     if tempo is not None and tempo > 0:
         mark = abjad.MetronomeMark(abjad.Duration(1, 4), tempo)
-        logging.info("Attaching tempo: ", tempo)
+        logging.debug(f"Attaching tempo: {tempo}")
         abjad.attach(mark, voice[0])
     return staff
 
@@ -24,7 +24,7 @@ def create_blocks(score: Score, with_midi: bool = False) -> Block:
     return Block("score", items)
 
 def make_voice(
-    pitches: List[int],
+    pitches: List[int|float],
     durations: List[int] | None = None,
     voice_name: str = "Default voice",
     ranges: Dict[range, int] | None = None,
@@ -50,11 +50,11 @@ def make_note_string(notes: List[NamedPitch], durations: List[int]) -> str:
 
 
 def attach_ottavas_mutating(
-    voice: Voice, pitches: List[int], ranges: Dict[range, int]
+    voice: Voice, pitches: List[int|float], ranges: Dict[range, int]
 ) -> None:
     for idx, n in get_partition_indices_and_ottava_n(pitches, ranges):
         abjad.attach(Ottava(n=n, site="before"), voice[idx])
 
 
-def transform_to_named_pitches(pitches: List[int]) -> List[NamedPitch]:
+def transform_to_named_pitches(pitches: List[int|float]) -> List[NamedPitch]:
     return [NamedPitch(n) for n in pitches]
