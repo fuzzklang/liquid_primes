@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List
 import abjad
 from abjad import Ottava, NamedPitch, Staff, Voice, Score, Block
@@ -5,8 +6,13 @@ from abjad import Ottava, NamedPitch, Staff, Voice, Score, Block
 from liquid_primes.pitches import get_partition_indices_and_ottava_n
 
 
-def make_staff(voice: Voice, staff_name: str = "Default staff") -> Staff:
-    return Staff([voice], name=staff_name)
+def make_staff(voice: Voice, tempo: int|None = None, staff_name: str = "Default staff") -> Staff:
+    staff = Staff([voice], name=staff_name)
+    if tempo is not None and tempo > 0:
+        mark = abjad.MetronomeMark(abjad.Duration(1, 4), tempo)
+        logging.info("Attaching tempo: ", tempo)
+        abjad.attach(mark, voice[0])
+    return staff
 
 def make_score(staff: Staff, score_name: str = "Default score") -> Score:
     return Score([staff], name=score_name)

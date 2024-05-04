@@ -1,3 +1,4 @@
+import logging
 from liquid_primes.pitches import generate_pitch_palette
 from liquid_primes.export import export_midi, filename, init_mixer, play_midi, show_score
 from liquid_primes.primes import primes
@@ -16,6 +17,7 @@ CENTRAL_A = 7  # in abjad, midi-pitch 69
 
 TMP_DIR = "./tmp"
 
+TEMPO = 600
 
 def main():
     max_pitch = MIDI_PITCH_RANGE[1]
@@ -30,8 +32,9 @@ def main():
     palette = generate_pitch_palette(
         reference_pitch, prime_intervals, min_pitch, max_pitch
     )
+    logging.info(f"Generated palette: {palette}")
     voice = make_voice(palette, ranges=ottava_ranges)
-    staff = make_staff(voice)
+    staff = make_staff(voice, tempo=TEMPO)
     score = make_score(staff)
     show_score(score)
 
