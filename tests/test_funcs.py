@@ -1,6 +1,6 @@
 import abjad
 
-from liquid_primes.score import make_voice, show_score
+from liquid_primes.score_abjad import make_voice, show_score
 
 
 test_palette = [

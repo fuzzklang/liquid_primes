@@ -1,6 +1,10 @@
 from typing import Dict, List, Tuple
 
 
+def get_max_range_n(reference_pitch, min_pitch, max_pitch, scale_ratio=1.0) -> int:
+    return int(max((max_pitch - reference_pitch)/scale_ratio, (reference_pitch - min_pitch)/scale_ratio))
+
+
 def generate_pitch_palette(
     central_tone: int,
     intervals: List[int|float],

@@ -3,12 +3,20 @@ from random import randint
 
 import abjad
 from abjad import Block, LilyPondFile, Score
-
 import pygame
 
 
-def show_score(score: Score) -> None:
+def show_score_abjad(score: Score) -> None:
     abjad.show(score)
+
+
+def play_score_abjad_blocking(score_block: Block, filepath: str):
+    is_success = export_midi(score_block, filepath)
+    if not is_success:
+        Exception("Midi export failed")
+    init_mixer()
+    play_midi_blocking(filepath)
+
 
 def export_midi(score_block: Block, file_path: str) -> bool:
     lilypond_file = LilyPondFile([score_block])
@@ -24,7 +32,7 @@ def filename(min_pitch: int, max_pitch:int, reference_pitch) -> str:
     return f"/min_{min_pitch}_max{max_pitch}_ref{reference_pitch}_{randint(100,999)}"
 
 
-def play_midi(midi_file_path):
+def play_midi_blocking(midi_file_path):
     """Stream music_file in a blocking manner"""
     def play(path: str):
         clock = pygame.time.Clock()
