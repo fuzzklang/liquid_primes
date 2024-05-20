@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Dict, List, Tuple
 
 
@@ -24,6 +25,10 @@ def generate_pitch_palette(
     )
     pitches = [i + central_tone for i in positive_and_negative_intervals]
     return [i for i in pitches if in_range(i)]
+
+def quantize_pitches(pitches: list[int|float], scale_ratio: float) -> list[float]:
+    scale_ratio_decimal = Decimal(scale_ratio).quantize(Decimal("0.01"))
+    return [float(Decimal(n).quantize(scale_ratio_decimal)) for n in pitches]
 
 
 def partition_notes_to_ranges(notes: List[int|float], ranges: Dict[range, int]):
