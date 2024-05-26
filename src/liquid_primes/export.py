@@ -20,3 +20,7 @@ def export_to_musicxml(score: Score, filepath:str) -> None:
 def filename(min_pitch: int, max_pitch:int, reference_pitch) -> str:
     # trunk-ignore(bandit/B311)
     return f"/min_{min_pitch}_max{max_pitch}_ref{reference_pitch}_{randint(100,999)}"
+
+def write_to_stdout(palette: list[float|int]):
+    output_string = " ".join([str(note) for note in palette])
+    print(output_string)

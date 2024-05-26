@@ -2,9 +2,10 @@ import argparse
 import logging
 
 from liquid_primes.pitches import generate_pitch_palette, get_max_range_n, quantize_pitches
-from liquid_primes.export import export_to_musicxml, filename, show_score, play_score
+from liquid_primes.export import export_to_musicxml, filename, show_score, play_score, write_to_stdout
 from liquid_primes.primes import primes, scale_with_ratio
 from liquid_primes.score import to_part, to_pitches, to_score, to_voice, with_duration
+from liquid_primes.utils import read_ints_from_stdin
 
 ottava_ranges = {
     range(21, 42): -2,
@@ -14,7 +15,7 @@ ottava_ranges = {
     range(95, 108): 2,
 }
 
-MIDI_PITCH_RANGE = (21, 108)  # Piano range in Adjab terms
+PITCH_RANGE_MIDI = (21, 108)
 CENTRAL_A_MIDI = 69
 
 TMP_DIR = "./tmp"
@@ -25,8 +26,8 @@ def main():
     logging.debug(f"{args}")
 
     # Setup
-    max_pitch = MIDI_PITCH_RANGE[1]
-    min_pitch = MIDI_PITCH_RANGE[0]
+    max_pitch = PITCH_RANGE_MIDI[1]
+    min_pitch = PITCH_RANGE_MIDI[0]
     reference_pitch = CENTRAL_A_MIDI
     scale_ratio = args.scale_ratio
     tempo: int = args.tempo
@@ -34,15 +35,26 @@ def main():
     export_file_name = filename(min_pitch, max_pitch, reference_pitch)
     xml_file_path = f"{TMP_DIR}/{export_file_name}.musicxml"
 
-    # Create rows
-    prime_intervals = scale_with_ratio(
-        primes(get_max_range_n(reference_pitch, min_pitch, max_pitch, scale_ratio)),
-        scale_ratio
-    )
-    palette = quantize_pitches(generate_pitch_palette(
-        reference_pitch, prime_intervals, min_pitch, max_pitch
-    ), scale_ratio)
-    logging.debug(f"Generated palette: {palette}")
+    if args.read_palette_from_stdin:
+        palette = read_ints_from_stdin()
+    else:
+    # Get rows
+        intervals = scale_with_ratio(
+            intervals=(read_ints_from_stdin()
+                    if args.read_intervals_from_stdin
+                    else primes(get_max_range_n(reference_pitch, min_pitch, max_pitch, scale_ratio))),
+            ratio=scale_ratio
+        )
+
+        logging.debug(f"{intervals=}")
+
+        palette = quantize_pitches(generate_pitch_palette(
+            reference_pitch, intervals, min_pitch, max_pitch
+        ), scale_ratio)
+        logging.debug(f"Generated palette: {palette}")
+
+    if args.output_row_to_stdout:
+        write_to_stdout(palette)
 
     # Create score
     notes = with_duration(pitches=to_pitches(palette), quarter_length=4)
@@ -72,6 +84,12 @@ def handle_args() -> argparse.Namespace:
                         help='tempo (int) for score and playback')
     parser.add_argument('-r', metavar="--ratio", dest='scale_ratio', type=float, nargs="?", default=1,
                         help='ratio for scaling step. 0.5 yields quarter tones; 2 doubles step')
+    parser.add_argument('--intervals', dest='read_intervals_from_stdin', type=bool, action=argparse.BooleanOptionalAction, default=False,
+                        help='read input intervals piped from stdin')
+    parser.add_argument('-i', metavar="--pipe-palette", dest='read_palette_from_stdin', type=bool, action=argparse.BooleanOptionalAction, default=False,
+                        help='read input palette piped from stdin')
+    parser.add_argument('-o', metavar="--output-row", dest='output_row_to_stdout', type=bool, action=argparse.BooleanOptionalAction, default=False,
+                        help='write generated row to stdout')
     parser.add_argument('--log-level', dest='log_level', type=str, default="INFO",
                         help='set log level')
 

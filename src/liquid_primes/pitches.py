@@ -1,4 +1,5 @@
 from decimal import Decimal
+import logging
 from typing import Dict, List, Tuple
 
 
@@ -23,6 +24,7 @@ def generate_pitch_palette(
     positive_and_negative_intervals = (
         [i * -1 for i in intervals[::-1]] + [0] + intervals
     )
+    logging.debug(f"{positive_and_negative_intervals=}")
     pitches = [i + central_tone for i in positive_and_negative_intervals]
     return [i for i in pitches if in_range(i)]
 
