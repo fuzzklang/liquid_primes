@@ -1,11 +1,12 @@
 import argparse
 import logging
 
+
 from liquid_primes.pitches import generate_pitch_palette, get_max_range_n, quantize_pitches
 from liquid_primes.export import export_to_musicxml, filename, show_score, play_score, write_to_stdout
 from liquid_primes.primes import primes, scale_with_ratio
 from liquid_primes.score import to_part, to_pitches, to_score, to_voice, with_duration
-from liquid_primes.utils import read_ints_from_stdin
+from liquid_primes.utils import read_nums_from_stdin
 
 ottava_ranges = {
     range(21, 42): -2,
@@ -32,15 +33,14 @@ def main():
     scale_ratio = args.scale_ratio
     tempo: int = args.tempo
 
-    export_file_name = filename(min_pitch, max_pitch, reference_pitch)
-    xml_file_path = f"{TMP_DIR}/{export_file_name}.musicxml"
-
     if args.read_palette_from_stdin:
-        palette = read_ints_from_stdin()
+        palette = read_nums_from_stdin()
+        xml_file_path = f"{TMP_DIR}/custom-{filename(palette[0], palette[-1], reference_pitch)}.musicxml"
     else:
-    # Get rows
+        xml_file_path = f"{TMP_DIR}/{filename(min_pitch, max_pitch, reference_pitch)}.musicxml"
+        # Get rows
         intervals = scale_with_ratio(
-            intervals=(read_ints_from_stdin()
+            intervals=(read_nums_from_stdin()
                     if args.read_intervals_from_stdin
                     else primes(get_max_range_n(reference_pitch, min_pitch, max_pitch, scale_ratio))),
             ratio=scale_ratio
