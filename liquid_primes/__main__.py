@@ -79,7 +79,7 @@ def handle_args() -> argparse.Namespace:
     parser.add_argument('-x', metavar='--exportmusicxml', dest="exportmusicxml", type=bool, action=argparse.BooleanOptionalAction,
                         help='save file as music xml to tmp folder')
     parser.add_argument('-s', metavar="--show", dest='show_score', type=bool, action=argparse.BooleanOptionalAction,
-                        help='show the score as PDF')
+                        help='show the score as PDF (not implemented)')
     parser.add_argument('-t', metavar="--tempo", dest='tempo', type=int, nargs="?", default=800,
                         help='tempo (int) for score and playback')
     parser.add_argument('-r', metavar="--ratio", dest='scale_ratio', type=float, nargs="?", default=1,
