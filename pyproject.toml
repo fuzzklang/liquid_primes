@@ -4,13 +4,13 @@ version = "0.1.0"
 description = ""
 authors = ["Terje Sylvarnes <fuzzklang@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
 sympy = "^1.12"
 music21 = "^9.1.0"
 pygame = {version = "^2.5.2", optional = true}
+drawsvg = "^2.4.0"
 
 [tool.poetry.extras]
 playback = ["pygame"]
