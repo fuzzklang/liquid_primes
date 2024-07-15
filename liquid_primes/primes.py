@@ -11,6 +11,3 @@ def primes(n: int):
     """Return a list of the primes up to n"""
     return list(primerange(n))
 
-
-def scale_with_ratio(intervals: list[int], ratio: float) -> list[float]:
-    return [n * ratio for n in intervals]

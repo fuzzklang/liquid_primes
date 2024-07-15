@@ -2,11 +2,11 @@ import argparse
 import logging
 
 
-from liquid_primes.pitches import generate_pitch_palette, get_max_range_n, quantize_pitches
-from liquid_primes.export import export_to_musicxml, filename, show_score, play_score, write_to_stdout
-from liquid_primes.primes import primes, scale_with_ratio
-from liquid_primes.score import to_part, to_pitches, to_score, to_voice, with_duration
-from liquid_primes.utils import read_nums_from_stdin
+from pitches import generate_pitch_palette, _get_max_range_n, quantize_pitches, scale_with_ratio
+from export import export_to_musicxml, filename, show_score, play_score, write_to_stdout
+from primes import primes
+from score import to_part, to_pitches, to_score, to_voice, with_duration
+from utils import read_nums_from_stdin
 
 ottava_ranges = {
     range(21, 42): -2,
@@ -17,7 +17,7 @@ ottava_ranges = {
 }
 
 PITCH_RANGE_MIDI = (21, 108)
-CENTRAL_A_MIDI = 69
+CENTRAL_A_MIDI = 69.5
 
 TMP_DIR = "./tmp"
 
@@ -42,7 +42,7 @@ def main():
         intervals = scale_with_ratio(
             intervals=(read_nums_from_stdin()
                     if args.read_intervals_from_stdin
-                    else primes(get_max_range_n(reference_pitch, min_pitch, max_pitch, scale_ratio))),
+                    else primes(_get_max_range_n(reference_pitch, min_pitch, max_pitch, scale_ratio))),
             ratio=scale_ratio
         )
 
@@ -52,6 +52,9 @@ def main():
             reference_pitch, intervals, min_pitch, max_pitch
         ), scale_ratio)
         logging.debug(f"Generated palette: {palette}")
+
+    if args.output_intervals:
+        write_to_stdout(intervals)
 
     if args.output_row_to_stdout:
         write_to_stdout(palette)
@@ -90,6 +93,8 @@ def handle_args() -> argparse.Namespace:
                         help='read input palette piped from stdin')
     parser.add_argument('-o', metavar="--output-row", dest='output_row_to_stdout', type=bool, action=argparse.BooleanOptionalAction, default=False,
                         help='write generated row to stdout')
+    parser.add_argument('--output-intervals', dest='output_intervals', type=bool, action=argparse.BooleanOptionalAction, default=False,
+                        help='output intervals to tmp folder')
     parser.add_argument('--log-level', dest='log_level', type=str, default="INFO",
                         help='set log level')
 
