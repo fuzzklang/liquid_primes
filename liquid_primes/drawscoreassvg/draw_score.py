@@ -10,10 +10,12 @@ def _draw_score(score: Score, filepath: str, config: Config, with_voice_spread: 
     for n, voice in enumerate(score.voices):
         y_axis_visual_offset = n * with_voice_spread
         if with_labels:
+            minimum_gap_from_line = 5
+            label_y_pos = voice.line_segments[0].points[0].y + y_axis_visual_offset + minimum_gap_from_line
             d.append(draw.Text(text=voice.name,
                                font_size=4,
                                x=-min(config.score_view.margin, label_offset),
-                               y=y_axis_visual_offset+5))
+                               y=label_y_pos))
         for event in voice.line_segments:
             d.append(_draw_line(event.points, y_axis_visual_offset))
 
