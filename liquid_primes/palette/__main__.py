@@ -1,11 +1,11 @@
 import argparse
 import logging
 
-from export import export_to_musicxml, filename, play_score, show_score, write_to_stdout
-from pitches import _get_max_range_n, generate_pitch_palette, quantize_pitches, scale_with_ratio
-from primes import primes
-from score import to_part, to_pitches, to_score, to_voice, with_duration
-from utils import read_nums_from_stdin
+from liquid_primes.palette.export import export_to_musicxml, filename, play_score, show_score, write_to_stdout
+from liquid_primes.palette.pitches import _get_max_range_n, generate_pitch_palette, quantize_pitches, scale_with_ratio
+from liquid_primes.palette.primes import primes
+from liquid_primes.palette.score import to_part, to_pitches, to_score, to_voice, with_duration
+from liquid_primes.palette.utils import read_nums_from_stdin
 
 ottava_ranges = {
     range(21, 42): -2,
@@ -21,7 +21,7 @@ CENTRAL_A_MIDI = 69.5
 TMP_DIR = "./tmp"
 
 
-def main():
+def main() -> None:
     args = handle_args()
     init_logger(args.log_level)
     logging.debug(f"{args}")
@@ -35,7 +35,7 @@ def main():
 
     if args.read_palette_from_stdin:
         palette = read_nums_from_stdin()
-        xml_file_path = f"{TMP_DIR}/custom-{filename(palette[0], palette[-1], reference_pitch)}.musicxml"
+        xml_file_path = f"{TMP_DIR}/custom-{filename(int(palette[0]), int(palette[-1]), reference_pitch)}.musicxml"
     else:
         xml_file_path = f"{TMP_DIR}/{filename(min_pitch, max_pitch, reference_pitch)}.musicxml"
         # Get rows

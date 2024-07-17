@@ -8,7 +8,7 @@ def _get_max_range_n(reference_pitch, min_pitch, max_pitch, scale_ratio=1.0) -> 
 
 
 def generate_pitch_palette(
-    central_tone: int,
+    central_tone: float | int,
     intervals: List[int | float],
     cutoff_bot: float = float("-inf"),
     cutoff_top: float = float("inf"),

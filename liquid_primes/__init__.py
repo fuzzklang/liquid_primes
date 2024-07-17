@@ -1,6 +1,6 @@
 from liquid_primes.drawscoreassvg.model import LineSegment, Score, Voice
-from liquid_primes.pitches import generate_pitch_palette, quantize_pitches, scale_with_ratio
-from liquid_primes.primes import primes, to_nth_prime
+from liquid_primes.palette.pitches import generate_pitch_palette, quantize_pitches, scale_with_ratio
+from liquid_primes.palette.primes import primes, to_nth_prime
 
 __all__ = [
     primes.__name__,

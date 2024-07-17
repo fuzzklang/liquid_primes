@@ -1,7 +1,11 @@
 from liquid_primes.drawscoreassvg import Config, export_score_as_svg
 from liquid_primes.drawscoreassvg import ScoreView as DrawScoreView
-from liquid_primes.primes import primes
-from score.mapping_to_drawable import get_sum_of_voices, map_to_drawable_score, map_to_events_with_glissandi
+from liquid_primes.palette.primes import primes
+from liquid_primes.score.mapping_to_drawable import (
+    get_sum_of_voices,
+    map_to_drawable_score,
+    map_to_events_with_glissandi,
+)
 from liquid_primes.score.model import Event, Voice
 
 from liquid_primes.scripts.utils import _distribute_events_over_voices_mut

@@ -2,7 +2,7 @@ import logging
 import sys
 
 
-def read_nums_from_stdin() -> list[int]:
+def read_nums_from_stdin() -> list[float]:
     line = sys.stdin.readlines()[0]
     logging.debug(f"read from stdin, {line=}")
     if not line:
