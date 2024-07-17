@@ -131,7 +131,7 @@ def _map_to_events_with_glissandi(
             raise ValueError("Duration is None")
         gliss: list[GlissPoint] = [
             GlissPoint(end_pitch=event.pitch + pitch_bend, duration=math.ceil(event.duration * split_point_normalized)),
-            GlissPoint(end_pitch=event.pitch, duration=math.floor(event.duration * split_point_normalized)),
+            GlissPoint(end_pitch=event.pitch, duration=math.floor(event.duration * (1.0 - split_point_normalized))),
         ]
         return Event(onset=event.onset, duration=None, pitch=event.pitch, gliss=gliss)
 
