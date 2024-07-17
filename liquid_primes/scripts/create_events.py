@@ -67,6 +67,7 @@ def main():
     #     print(f"==== {voice.name} {voice.type} ====")
     #     for e in voice.events:
     #         print(f" {e}")
+    voices.append(_get_sum_of_voices(voices))
 
     # Convert to event/domain objects
     drawable_score = _map_to_drawable_score(voices)
@@ -145,6 +146,10 @@ def _map_to_events_with_glissandi(
             events_with_glissandi.append(e)
 
     return events_with_glissandi
+
+
+def _get_sum_of_voices(voices: list[Voice]) -> Voice:
+    return Voice("Sum", "", [event for voice in voices for event in voice.events])
 
 
 if __name__ == "__main__":
