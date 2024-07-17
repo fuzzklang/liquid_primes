@@ -8,7 +8,7 @@ class Point:
 
     def __iter__(self):
         return iter(astuple(self))
-    
+
     def __getitem__(self, keys):
         return iter(getattr(self, k) for k in keys)
 
@@ -20,7 +20,7 @@ class LineSegment:
 
 @dataclass
 class Voice:
-    type: str # instrument/type
+    type: str  # instrument/type
     name: str
     line_segments: list[LineSegment]
 

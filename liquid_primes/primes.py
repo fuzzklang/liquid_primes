@@ -1,5 +1,6 @@
 from typing import List
-from sympy.ntheory.generate import primerange, prime
+
+from sympy.ntheory.generate import prime, primerange
 
 
 def to_nth_prime(n: int) -> List[int]:
@@ -10,4 +11,3 @@ def to_nth_prime(n: int) -> List[int]:
 def primes(n: int):
     """Return a list of the primes up to n"""
     return list(primerange(n))
-
