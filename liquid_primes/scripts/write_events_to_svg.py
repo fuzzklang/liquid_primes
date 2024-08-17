@@ -1,11 +1,8 @@
 from liquid_primes.drawscoreassvg import Config, export_score_as_svg
 from liquid_primes.drawscoreassvg import ScoreView as DrawScoreView
 from liquid_primes.palette.primes import primes
-from liquid_primes.score.mapping_to_drawable import (
-    get_sum_of_voices,
-    map_to_drawable_score,
-    map_to_events_with_glissandi,
-)
+from liquid_primes.score.create_score_with_gliss import get_sum_of_voices, map_to_gliss_events
+from liquid_primes.score.mapping_to_drawable import map_to_drawable_score
 from liquid_primes.score.model import Event, Voice
 
 from liquid_primes.scripts.utils import _distribute_events_over_voices_mut
@@ -30,7 +27,7 @@ VOICES = [
 def main():
     onsets = primes(100)  # Generate prime seq
     events = [_get_event(onset=onset) for onset in onsets]
-    events_with_gliss = map_to_events_with_glissandi(
+    events_with_gliss = map_to_gliss_events(
         events=events,
         distance_to_trigger_gliss=5,
         split_point_normalized=0.5,

@@ -20,8 +20,8 @@ class LineSegment:
 
 @dataclass
 class Voice:
-    type: str  # instrument/type
     name: str
+    type: str  # instrument/type
     line_segments: list[LineSegment]
 
 

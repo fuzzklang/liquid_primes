@@ -24,10 +24,17 @@ mypy = "^1.9.0"
 minversion = "8.0"
 addopts = "-s"
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["liquid_primes"]
 
 [tool.ruff]
 line-length = 120
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[[tool.mypy.overrides]]
+module = [
+    'drawsvg',
+    'sympy.ntheory.*'
+]
+ignore_missing_imports = true

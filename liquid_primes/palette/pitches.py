@@ -1,5 +1,5 @@
 import logging
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Dict, List, Tuple
 
 
@@ -10,8 +10,8 @@ def _get_max_range_n(reference_pitch, min_pitch, max_pitch, scale_ratio=1.0) -> 
 def generate_pitch_palette(
     central_tone: float | int,
     intervals: List[int | float],
-    cutoff_bot: float = float("-inf"),
-    cutoff_top: float = float("inf"),
+    cutoff_bot_incl: float = float("-inf"),
+    cutoff_top_incl: float = float("inf"),
 ) -> List[int | float]:
     """
     Return a list of pitches.
@@ -19,7 +19,7 @@ def generate_pitch_palette(
     """
 
     def _in_range(i: int | float):
-        return cutoff_bot <= i and i <= cutoff_top
+        return cutoff_bot_incl <= i and i <= cutoff_top_incl
 
     positive_and_negative_intervals = [i * -1 for i in intervals[::-1]] + [0] + intervals
     logging.debug(f"{positive_and_negative_intervals=}")
@@ -27,9 +27,9 @@ def generate_pitch_palette(
     return [i for i in pitches if _in_range(i)]
 
 
-def quantize_pitches(pitches: list[int | float], scale_ratio: float) -> list[float]:
-    scale_ratio_decimal = Decimal(scale_ratio).quantize(Decimal("0.01"))
-    return [float(Decimal(n).quantize(scale_ratio_decimal)) for n in pitches]
+def quantize_pitches(pitches: list[int | float], scale_ratio: float, exp: Decimal = Decimal("1.00")) -> list[float]:
+    scale_ratio_decimal = Decimal(scale_ratio).quantize(exp)
+    return [float(Decimal(n).quantize(scale_ratio_decimal, ROUND_HALF_UP)) for n in pitches]
 
 
 def _partition_notes_to_ranges(notes: List[int | float], ranges: Dict[range, int]):

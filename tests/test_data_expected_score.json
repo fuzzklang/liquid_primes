@@ -1,0 +1,60 @@
+{
+  "voices": [
+    {
+      "name": "a",
+      "type": "type_a",
+      "events": [
+        {
+          "onset": 1,
+          "durations": [
+            1,
+            1
+          ],
+          "pitches": [
+            60,
+            61,
+            60
+          ]
+        },
+        {
+          "onset": 4,
+          "durations": [
+            1,
+            1
+          ],
+          "pitches": [
+            62,
+            63,
+            62
+          ]
+        }
+      ]
+    },
+    {
+      "name": "b",
+      "type": "type_b",
+      "events": [
+        {
+          "onset": 2,
+          "durations": [
+            3
+          ],
+          "pitches": [
+            61,
+            61
+          ]
+        },
+        {
+          "onset": 5,
+          "durations": [
+            3
+          ],
+          "pitches": [
+            63,
+            63
+          ]
+        }
+      ]
+    }
+  ]
+}
