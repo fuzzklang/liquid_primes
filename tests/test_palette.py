@@ -52,7 +52,6 @@ def test_quantize_pitches_is_correct_with_scaling():
     expected = [0.5, 0.5, 0.75]
     input_floats = [0.44444, 0.51, 0.69111111]
     result = quantize_pitches(pitches=input_floats, scale_ratio=0.25, exp=Decimal("1.00"))
-    print(result)
     assert result == expected
 
 
