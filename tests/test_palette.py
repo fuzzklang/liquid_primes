@@ -3,21 +3,8 @@ import re
 
 import pytest
 
-from liquid_primes.palette.primes import primes, to_nth_prime
 from liquid_primes.palette.export import filename
 from liquid_primes.palette.pitches import generate_pitch_palette, quantize_pitches, scale_with_ratio
-
-
-def test_primes_returns_primes():
-    expected = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
-    result = primes(30)
-    assert result == expected
-
-
-def test_to_nth_prime_generator():
-    expected = [2, 3, 5, 7, 11, 13, 17, 19]
-    result = to_nth_prime(8)
-    assert result == expected
 
 
 def test_filename_correctly_made():

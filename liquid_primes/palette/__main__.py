@@ -30,7 +30,7 @@ def main() -> None:
     max_pitch = PITCH_RANGE_MIDI[1]
     min_pitch = PITCH_RANGE_MIDI[0]
     reference_pitch = CENTRAL_A_MIDI
-    scale_ratio = args.scale_ratio
+    scale_ratio: int | float = args.scale_ratio
     tempo: int = args.tempo
 
     if args.read_palette_from_stdin:
