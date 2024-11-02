@@ -10,6 +10,11 @@ def _map_to_sc_voice(voice: Voice) -> SCVoice:
 
 
 def _map_to_sc_event(gliss_event: GlissEvent) -> SCEvent:
-    sc_pitches = [gliss_event.start_pitch, *[p.end_pitch for p in gliss_event.gliss]]
-    sc_durations = [p.duration for p in gliss_event.gliss]
-    return SCEvent(onset=gliss_event.onset, durations=sc_durations, pitches=sc_pitches)
+    sc_pitches = [gliss_event.start_pitch, *[e.end_pitch for e in gliss_event.gliss]]
+    sc_durations = [e.duration for e in gliss_event.gliss]
+    return SCEvent(
+        onset=gliss_event.onset,
+        durations=sc_durations,
+        pitches=sc_pitches,
+        dynamic_range=gliss_event.dynamic_range,
+    )

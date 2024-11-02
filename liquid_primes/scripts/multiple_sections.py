@@ -1,23 +1,12 @@
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 import json
-from typing import Generator
 
-from liquid_primes.scripts.utils import _distribute_events_over_voices_mut
-from liquid_primes.score.model import Event, Score, Voice
-from liquid_primes.score.create_score_with_gliss import get_sum_of_voices, map_to_gliss_events
+from liquid_primes.score.model import Section, Voice
+from liquid_primes.score.create_score import get_sum_of_voices, create_score_from_sections
 from liquid_primes.score.mapping_to_sc_json import map_to_sc_json
 from liquid_primes.palette.primes import prime_gen
 from liquid_primes.score.mapping_to_drawable import map_to_drawable_score
 from liquid_primes.drawscoreassvg import Config as DrawConfig, ScoreView as DrawScoreView, export_score_as_svg
-
-
-@dataclass
-class Section:
-    num_events: int
-    reference_pitch: int | float
-    base_duration: int | float
-    pitch_bend: int | float
-    distance_to_trigger_gliss: int | float
 
 
 N_PRIMES = 50
@@ -37,34 +26,39 @@ VOICES = [
 ]
 
 sections = [
-    Section(num_events=11, reference_pitch=60, base_duration=11, pitch_bend=0.25, distance_to_trigger_gliss=5),
-    Section(num_events=13, reference_pitch=61, base_duration=7, pitch_bend=0.25, distance_to_trigger_gliss=5),
-    Section(num_events=17, reference_pitch=62, base_duration=5, pitch_bend=0.25, distance_to_trigger_gliss=5),
+    Section(
+        num_events=11,
+        reference_pitch=60,
+        base_duration=11,
+        pitch_bend=0.25,
+        distance_to_trigger_gliss=5,
+        dynamic_range=(0.2, 0.4),
+    ),
+    Section(
+        num_events=13,
+        reference_pitch=61,
+        base_duration=7,
+        pitch_bend=0.25,
+        distance_to_trigger_gliss=5,
+        dynamic_range=(0.3, 0.5),
+    ),
+    Section(
+        num_events=17,
+        reference_pitch=62,
+        base_duration=5,
+        pitch_bend=0.25,
+        distance_to_trigger_gliss=5,
+        dynamic_range=(0.4, 0.8),
+    ),
 ]
 
 
-def _get_onsets(onset_gen: Generator[int, None, None], n: int):
-    return [next(onset_gen) for _ in range(n)]
-
-
-def _section_to_events(onset_gen: Generator[int, None, None], section: Section):
-    onsets = _get_onsets(onset_gen, section.num_events)
-    events = [Event(onset=onset, duration=section.base_duration, pitch=section.reference_pitch) for onset in onsets]
-    gliss_events = map_to_gliss_events(
-        events=events,
-        distance_to_trigger_gliss=section.distance_to_trigger_gliss,
-        split_point_normalized=0.5,
-        pitch_bend=section.pitch_bend,
-    )
-    return gliss_events
-
-
 def main():
-    onset_gen = prime_gen(0)  # Prime generator
+    # Prime generator for onsets
+    onset_gen = prime_gen(0)
 
-    # Distribute over voices
-    events = [event for section in sections for event in _section_to_events(onset_gen, section)]
-    score = Score(voices=_distribute_events_over_voices_mut(events, VOICES))
+    # Create score from sections
+    score = create_score_from_sections(sections, VOICES, onset_gen)
 
     # Write JSON score (for SuperCollider)
     score_as_json = json.dumps(asdict(map_to_sc_json(score)), indent=2)

@@ -3,7 +3,7 @@ import json
 
 from liquid_primes.scripts.utils import _distribute_events_over_voices_mut
 from liquid_primes.score.model import Event, Score, Voice
-from liquid_primes.score.create_score_with_gliss import get_sum_of_voices, map_to_gliss_events
+from liquid_primes.score.create_score import get_sum_of_voices, _map_to_gliss_events
 from liquid_primes.score.mapping_to_sc_json import map_to_sc_json
 from liquid_primes.palette.primes import primes
 from liquid_primes.score.mapping_to_drawable import map_to_drawable_score
@@ -28,7 +28,7 @@ VOICES = [
 def main():
     onsets = primes(N_PRIMES)  # Generate prime seq
     events = [_get_event(onset=onset, duration=CONST_DUR, pitch=CONST_PITCH) for onset in onsets]
-    gliss_events = map_to_gliss_events(
+    gliss_events = _map_to_gliss_events(
         events=events,
         distance_to_trigger_gliss=DIST_TO_TRIGGER_GLISS,
         split_point_normalized=0.5,
